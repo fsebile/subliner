@@ -8,6 +8,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.sebo.model.Subtitle;
+import subtitleFile.FatalParsingException;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,21 +36,32 @@ public class Controller {
     public void onImport(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Subtitle File");
-        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("SRT", ".srt"));
+       // fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("SRT", ".srt"));
         File file = fileChooser.showOpenDialog(stage);
         try {
             loadSubtitle(file);
         } catch (IOException e) {
             e.printStackTrace();
             //TODO error message
+        } catch (FatalParsingException e) {
+            e.printStackTrace();
         }
     }
 
-    private void loadSubtitle(File file) throws IOException {
-        Subtitle subtitle = Subtitle.readSRT(file.getAbsolutePath());
-//        System.out.println(subtitle.get(1));
+    private void loadSubtitle(File file) throws IOException, FatalParsingException {
 
-        originalText.setText(subtitle.get(1).getSubtitle());
+        if (file.getName().endsWith(".srt")){
+            Subtitle subtitle = Subtitle.readSRT(file.getAbsolutePath());
+            originalText.setText(subtitle.get(1).getSubtitle());
+        }
+        else if (file.getName().endsWith(".stl")){
+            Subtitle subtitle1 = Subtitle.readSTL(file.getAbsolutePath());
+            originalText.setText(subtitle1.get(1).getSubtitle());
+        }
+        else {
+            System.out.println("Uygun formatta dosya olmalı");
+        }
+
     }
 
     public void setStage(Stage stageAndSetupListeners) {
