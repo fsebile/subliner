@@ -49,7 +49,8 @@
             <RowConstraints maxHeight="111.0" minHeight="10.0" prefHeight="87.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
         </rowConstraints>
-        <TextArea fx:id="originalText" editable="false" prefHeight="77.0" prefWidth="590.0" GridPane.rowIndex="1">
+        <TextArea fx:id="originalText" editable="false" prefHeight="77.0" prefWidth="590.0" GridPane.rowIndex="1"
+        style="-fx-border-style: dashed; back">
             <GridPane.margin>
                 <Insets bottom="5.0" />
             </GridPane.margin>
