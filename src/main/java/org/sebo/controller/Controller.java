@@ -36,7 +36,7 @@ public class Controller {
     public void onImport(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Subtitle File");
-       // fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("SRT", ".srt"));
+        // fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("SRT", ".srt"));
         File file = fileChooser.showOpenDialog(stage);
         try {
             loadSubtitle(file);
@@ -50,15 +50,13 @@ public class Controller {
 
     private void loadSubtitle(File file) throws IOException, FatalParsingException {
 
-        if (file.getName().endsWith(".srt")){
+        if (file.getName().endsWith(".srt")) {
             Subtitle subtitle = Subtitle.readSRT(file.getAbsolutePath());
             originalText.setText(subtitle.get(1).getSubtitle());
-        }
-        else if (file.getName().endsWith(".stl")){
+        } else if (file.getName().endsWith(".stl")) {
             Subtitle subtitle1 = Subtitle.readSTL(file.getAbsolutePath());
             originalText.setText(subtitle1.get(1).getSubtitle());
-        }
-        else {
+        } else {
             System.out.println("Uygun formatta dosya olmalı");
         }
 
