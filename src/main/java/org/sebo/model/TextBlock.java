@@ -3,6 +3,11 @@ package org.sebo.model;
 import subtitleFile.Time;
 
 public class TextBlock {
+    private int id;
+    private Time start;
+    private Time end;
+    private String subtitle;
+
     public int getId() {
         return id;
     }
@@ -34,11 +39,6 @@ public class TextBlock {
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
     }
-
-    private int id;
-    private Time start;
-    private Time end;
-    private String subtitle;
 
     @Override
     public String toString() {

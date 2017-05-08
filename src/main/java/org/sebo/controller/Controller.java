@@ -36,7 +36,13 @@ public class Controller {
     public void onImport(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Subtitle File");
-        // fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("SRT", ".srt"));
+
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(
+                "Subtitle",
+                "*.srt", "*.stl");
+
+        fileChooser.getExtensionFilters().add(filter);
+
         File file = fileChooser.showOpenDialog(stage);
         try {
             loadSubtitle(file);
@@ -50,6 +56,7 @@ public class Controller {
 
     private void loadSubtitle(File file) throws IOException, FatalParsingException {
 
+        //TODO move to Helper class
         if (file.getName().endsWith(".srt")) {
             Subtitle subtitle = Subtitle.readSRT(file.getAbsolutePath());
             originalText.setText(subtitle.get(1).getSubtitle());

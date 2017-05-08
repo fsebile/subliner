@@ -1,7 +1,6 @@
 package org.sebo.model;
 
 import subtitleFile.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +16,7 @@ public interface Subtitle {
 
         FormatSRT srt = new FormatSRT();
         TimedTextObject sub = srt.parseFile(file, Files.newInputStream(Paths.get(file)));
+        //TODO Sebo bu duplicate (#1) kaldir
         for (Integer id : sub.captions.keySet()) {
             TextBlock block = new TextBlock();
             Caption caption = sub.captions.get(id);
@@ -32,11 +32,11 @@ public interface Subtitle {
     }
 
     static Subtitle readSTL(String file) throws IOException, FatalParsingException {
-        //TODO Sebo yazacak!
         STLSubtitle subtitle = new STLSubtitle();
 
         FormatSTL stl = new FormatSTL();
         TimedTextObject sub = stl.parseFile(file, Files.newInputStream(Paths.get(file)));
+        //TODO Sebo duplicate #2
         for (Integer id : sub.captions.keySet()) {
             TextBlock block = new TextBlock();
             Caption caption = sub.captions.get(id);
