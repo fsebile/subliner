@@ -8,16 +8,16 @@ import java.util.List;
  */
 public class SRTSubtitle implements Subtitle {
 
-    List<TextBlock> textBlocks = new ArrayList<>();
-
-    @Override
-    public Subtitle read(String file) {
-        return null;
-    }
+    private List<TextBlock> textBlocks = new ArrayList<>();
 
     @Override
     public void write() {
 
+    }
+
+    @Override
+    public void add(TextBlock block) {
+        textBlocks.add(block);
     }
 
     @Override
@@ -27,6 +27,6 @@ public class SRTSubtitle implements Subtitle {
 
     @Override
     public TextBlock get(int i) {
-        return null;
+        return textBlocks.get(i);
     }
 }
