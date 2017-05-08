@@ -15,7 +15,8 @@ public class Main extends Application {
         URL view = getClass().getClassLoader().getResource("view.fxml");
         System.out.println(view);
 
-//        assert view != null;
+
+
         Parent root = FXMLLoader.load(view);
         primaryStage.setTitle("Subliner");
         primaryStage.setScene(new Scene(root, 600, 400));

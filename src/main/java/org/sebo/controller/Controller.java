@@ -1,4 +1,4 @@
-package org.sebo;
+package org.sebo.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
