@@ -1,8 +1,6 @@
 package org.sebo.model;
 
-import subtitleFile.Caption;
-import subtitleFile.FormatSRT;
-import subtitleFile.TimedTextObject;
+import subtitleFile.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
@@ -33,9 +31,24 @@ public interface Subtitle {
         return subtitle;
     }
 
-    static Subtitle readSTL(String file) throws IOException {
+    static Subtitle readSTL(String file) throws IOException, FatalParsingException {
         //TODO Sebo yazacak!
-        throw new NotImplementedException();
+        STLSubtitle subtitle = new STLSubtitle();
+
+        FormatSTL stl = new FormatSTL();
+        TimedTextObject sub = stl.parseFile(file, Files.newInputStream(Paths.get(file)));
+        for (Integer id : sub.captions.keySet()) {
+            TextBlock block = new TextBlock();
+            Caption caption = sub.captions.get(id);
+
+            block.setSubtitle(caption.content);
+            block.setStart(caption.start);
+            block.setEnd(caption.end);
+
+            subtitle.add(block);
+        }
+
+        return subtitle;
     }
 
     void write();
