@@ -2,6 +2,8 @@ package org.sebo.model;
 
 import subtitleFile.Time;
 
+import static org.joor.Reflect.on;
+
 public class TextBlock {
     private int id;
     private Time start;
@@ -38,6 +40,18 @@ public class TextBlock {
 
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
+    }
+
+    public TableModel getTableModel() {
+        String s = on(start)
+                .call("getTime", "hh:mm:ss,ms")
+                .get();
+
+        String e = on(end)
+                .call("getTime", "hh:mm:ss,ms")
+                .get();
+
+        return new TableModel(s, e, subtitle);
     }
 
     @Override

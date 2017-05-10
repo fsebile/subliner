@@ -7,7 +7,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.effect.ColorAdjust?>
@@ -19,8 +18,8 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.StatusBar?>
 
-<GridPane prefHeight="586.0" prefWidth="616.0" xmlns="http://javafx.com/javafx/8.0.111"
-          xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sebo.controller.Controller">
+<GridPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="586.0" prefWidth="616.0"
+          xmlns="http://javafx.com/javafx/8.0.112" fx:controller="org.sebo.controller.Controller">
 
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -51,13 +50,14 @@
     </MenuBar>
     <TableView fx:id="table" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
         <columns>
-            <TableColumn maxWidth="140.0" prefWidth="140.0" resizable="false" text="Start"/>
-            <TableColumn maxWidth="140.0" prefWidth="140.0" resizable="false" sortable="false" text="End"/>
-            <TableColumn maxWidth="-1.0" minWidth="180.0" prefWidth="176.0" sortable="false" text="Original"/>
-            <TableColumn maxWidth="-1.0" minWidth="180.0" prefWidth="283.0" sortable="false" text="Translation"/>
+            <!--<TableColumn editable="false" prefWidth="50.0" resizable="false" text="id"/>-->
+            <!--<TableColumn maxWidth="295.0" prefWidth="110.0" resizable="false" text="Start"/>-->
+            <!--<TableColumn maxWidth="140.0" prefWidth="116.0" resizable="false" sortable="false" text="End"/>-->
+            <!--<TableColumn maxWidth="223.0" minWidth="147.0" prefWidth="223.0" sortable="false" text="Original"/>-->
+            <!--<TableColumn maxWidth="213.0" minWidth="175.0" prefWidth="175.0" sortable="false" text="Translation"/>-->
         </columns>
         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            <Insets left="5.0" right="5.0"/>
         </GridPane.margin>
         <cursor>
             <Cursor fx:constant="DEFAULT"/>
@@ -92,9 +92,9 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"/>
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" percentHeight="45.0" prefHeight="30.0" vgrow="ALWAYS"/>
+            <RowConstraints minHeight="10.0" percentHeight="30.0" prefHeight="30.0" vgrow="ALWAYS"/>
             <RowConstraints vgrow="NEVER"/>
-            <RowConstraints percentHeight="45.0" vgrow="ALWAYS"/>
+            <RowConstraints percentHeight="60.0" vgrow="ALWAYS"/>
         </rowConstraints>
         <TextArea fx:id="originalText" editable="false" promptText="Original" style="-fx-border-style: dotted;"
                   GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
@@ -112,7 +112,8 @@
             </effect>
         </TextArea>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
-            <JFXButton contentDisplay="CENTER" mnemonicParsing="false" text="\\/" textAlignment="CENTER">
+            <JFXButton contentDisplay="CENTER" mnemonicParsing="false" onAction="#onCopyDown" text="\\/"
+                       textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND"/>
                 </cursor>
@@ -133,5 +134,5 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
         </GridPane.margin>
     </GridPane>
-    <StatusBar progress="0.34" GridPane.rowIndex="4"/>
+    <StatusBar fx:id="statusBar" progress="0.34" GridPane.rowIndex="4"/>
 </GridPane>

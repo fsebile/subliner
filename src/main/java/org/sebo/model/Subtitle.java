@@ -20,7 +20,7 @@ public interface Subtitle {
         for (Integer id : sub.captions.keySet()) {
             TextBlock block = new TextBlock();
             Caption caption = sub.captions.get(id);
-
+            block.setId(id);
             block.setSubtitle(caption.content);
             block.setStart(caption.start);
             block.setEnd(caption.end);
@@ -40,7 +40,7 @@ public interface Subtitle {
         for (Integer id : sub.captions.keySet()) {
             TextBlock block = new TextBlock();
             Caption caption = sub.captions.get(id);
-
+            block.setId(id);
             block.setSubtitle(caption.content);
             block.setStart(caption.start);
             block.setEnd(caption.end);

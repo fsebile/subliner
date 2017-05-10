@@ -22,7 +22,7 @@ public class SRTSubtitle implements Subtitle {
 
     @Override
     public List<TextBlock> getAll() {
-        return null;
+        return textBlocks;
     }
 
     @Override
