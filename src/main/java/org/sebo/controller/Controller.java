@@ -13,8 +13,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.StatusBar;
+import org.sebo.SubtitleUtil;
 import org.sebo.model.Subtitle;
-import org.sebo.model.TableModel;
 import org.sebo.model.TextBlock;
 
 import java.io.File;
@@ -24,13 +24,13 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    private final ObservableList<TableModel> data = FXCollections.observableArrayList();
+    private final ObservableList<TextBlock> data = FXCollections.observableArrayList();
     @FXML
     public TextArea originalText;
     @FXML
     public TextArea translateText;
     @FXML
-    public TableView<TableModel> table;
+    public TableView<TextBlock> table;
     public MenuItem importButton;
     public StatusBar statusBar;
     private Stage stage;
@@ -46,35 +46,18 @@ public class Controller implements Initializable {
         fileChooser.getExtensionFilters().add(filter);
 
         File file = fileChooser.showOpenDialog(stage);
+        if (file == null) {
+            return;
+        }
         try {
-            Subtitle subtitle = loadSubtitle(file);
-
-            subtitle.getAll()
-                    .stream()
-                    .map(TextBlock::getTableModel)
-                    .forEach(data::add);
+            data.clear();
+            Subtitle subtitle = SubtitleUtil.loadSubtitle(file);
+            data.addAll(subtitle.getAll());
 
         } catch (Exception e) {
             e.printStackTrace();
             statusBar.setText(e.getMessage());
         }
-    }
-
-    private Subtitle loadSubtitle(File file) throws Exception {
-
-        Subtitle subtitle;
-        //TODO move to Helper class
-        if (file.getName().endsWith(".srt")) {
-            subtitle = Subtitle.readSRT(file.getAbsolutePath());
-//            originalText.setText(subtitle.get(1).getSubtitle());
-        } else if (file.getName().endsWith(".stl")) {
-            subtitle = Subtitle.readSTL(file.getAbsolutePath());
-//            originalText.setText(subtitle1.get(1).getSubtitle());
-        } else {
-            System.out.println("Uygun formatta dosya olmalı");
-            throw new Exception("Uygun formatta dosya olmalı");
-        }
-        return subtitle;
     }
 
     public void setStage(Stage stageAndSetupListeners) {
@@ -84,41 +67,43 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-//        TableColumn<TableModel, Integer> id = new TableColumn<>("#");
-//        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        table.getColumns().add(id);
+        initTable();
 
-        TableColumn<TableModel, String> start = new TableColumn<>("Start");
+        translateText.textProperty()
+                     .addListener((observable, oldValue, newValue) -> {
+                         table.getSelectionModel()
+                              .getSelectedItem()
+                              .setTranslation(newValue);
+                         table.refresh();
+                     });
+    }
+
+    private void initTable() {
+        TableColumn<TextBlock, String> start = new TableColumn<>("Start");
         start.setCellValueFactory(new PropertyValueFactory<>("start"));
         table.getColumns().add(start);
 
-        TableColumn<TableModel, String> end = new TableColumn<>("End");
+        TableColumn<TextBlock, String> end = new TableColumn<>("End");
         end.setCellValueFactory(new PropertyValueFactory<>("end"));
         table.getColumns().add(end);
 
-        TableColumn<TableModel, String> sub = new TableColumn<>("Subtitle");
+        TableColumn<TextBlock, String> sub = new TableColumn<>("Subtitle");
         sub.setCellValueFactory(new PropertyValueFactory<>("subtitle"));
         table.getColumns().add(sub);
 
-        TableColumn<TableModel, String> translation = new TableColumn<>("Translation");
+        TableColumn<TextBlock, String> translation = new TableColumn<>("Translation");
         translation.setCellValueFactory(new PropertyValueFactory<>("translation"));
         table.getColumns().add(translation);
 
         table.setItems(data);
-        table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                originalText.setText(newValue.getSubtitle());
-                translateText.setText(newValue.getTranslation());
-            }
-        });
-
-        translateText.textProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    table.getSelectionModel()
-                            .getSelectedItem()
-                            .setTranslation(newValue);
-                    table.refresh();
-                });
+        table.getSelectionModel()
+             .selectedItemProperty()
+             .addListener((observable, oldValue, newValue) -> {
+                 if (newValue != null) {
+                     originalText.setText(newValue.getSubtitle());
+                     translateText.setText(newValue.getTranslation());
+                 }
+             });
     }
 
     public void onCopyDown(ActionEvent event) {

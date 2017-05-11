@@ -11,7 +11,7 @@ public class STLSubtitle implements Subtitle {
     private List<TextBlock> textBlocks = new ArrayList<>();
 
     @Override
-    public void write() {
+    public void save(String file) {
 
     }
 
