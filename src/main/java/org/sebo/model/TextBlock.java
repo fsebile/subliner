@@ -1,12 +1,13 @@
 package org.sebo.model;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class TextBlock {
-    private SimpleStringProperty start;
-    private SimpleStringProperty end;
-    private SimpleStringProperty subtitle;
-    private SimpleStringProperty translation;
+    private StringProperty start;
+    private StringProperty end;
+    private StringProperty subtitle;
+    private StringProperty translation;
 
     public TextBlock() {
         start = new SimpleStringProperty();
