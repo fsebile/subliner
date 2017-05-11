@@ -1,61 +1,54 @@
 package org.sebo.model;
 
-import subtitleFile.Time;
-
-import static org.joor.Reflect.on;
+import javafx.beans.property.SimpleStringProperty;
 
 public class TextBlock {
-    private int id;
-    private Time start;
-    private Time end;
-    private String subtitle;
+    private SimpleStringProperty start;
+    private SimpleStringProperty end;
+    private SimpleStringProperty subtitle;
+    private SimpleStringProperty translation;
 
-    public int getId() {
-        return id;
+    public TextBlock() {
+        start = new SimpleStringProperty();
+        end = new SimpleStringProperty();
+        subtitle = new SimpleStringProperty();
+        translation = new SimpleStringProperty();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getStart() {
+        return start.get();
     }
 
-    public subtitleFile.Time getStart() {
-        return start;
+    public void setStart(String start) {
+        this.start.set(start);
     }
 
-    public void setStart(Time start) {
-        this.start = start;
+    public String getEnd() {
+        return end.get();
     }
 
-    public subtitleFile.Time getEnd() {
-        return end;
-    }
-
-    public void setEnd(Time end) {
-        this.end = end;
+    public void setEnd(String end) {
+        this.end.set(end);
     }
 
     public String getSubtitle() {
-        return subtitle;
+        return subtitle.get();
     }
 
     public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
+        this.subtitle.set(subtitle);
     }
 
-    public TableModel getTableModel() {
-        String s = on(start)
-                .call("getTime", "hh:mm:ss,ms")
-                .get();
+    public String getTranslation() {
+        return translation.get();
+    }
 
-        String e = on(end)
-                .call("getTime", "hh:mm:ss,ms")
-                .get();
-
-        return new TableModel(s, e, subtitle);
+    public void setTranslation(String translation) {
+        this.translation.set(translation);
     }
 
     @Override
     public String toString() {
-        return subtitle;
+        return subtitle.get();
     }
 }

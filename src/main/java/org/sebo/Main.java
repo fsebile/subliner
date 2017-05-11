@@ -11,6 +11,10 @@ import java.net.URL;
 
 public class Main extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         URL view = getClass().getClassLoader().getResource("view.fxml");
@@ -25,9 +29,5 @@ public class Main extends Application {
         primaryStage.setTitle("Subliner");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
