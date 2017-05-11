@@ -2,8 +2,6 @@ package org.sebo.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -24,18 +22,16 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    private final ObservableList<TextBlock> data = FXCollections.observableArrayList();
-    @FXML
-    public TextArea originalText;
-    @FXML
-    public TextArea translateText;
-    @FXML
-    public TableView<TextBlock> table;
     public MenuItem importButton;
+    public TableView<TextBlock> table;
+    public TextArea originalText;
+    public TextArea translateText;
     public StatusBar statusBar;
-    private Stage stage;
 
-    public void onImport(ActionEvent event) {
+    private Stage stage;
+    private ObservableList<TextBlock> data = FXCollections.observableArrayList();
+
+    public void onImport() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Subtitle File");
 
@@ -60,8 +56,8 @@ public class Controller implements Initializable {
         }
     }
 
-    public void setStage(Stage stageAndSetupListeners) {
-        this.stage = stageAndSetupListeners;
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     @Override
@@ -71,29 +67,40 @@ public class Controller implements Initializable {
 
         translateText.textProperty()
                      .addListener((observable, oldValue, newValue) -> {
-                         table.getSelectionModel()
-                              .getSelectedItem()
-                              .setTranslation(newValue);
-                         table.refresh();
+                         if (table.getItems().size() > 0) {
+                             table.getSelectionModel()
+                                  .getSelectedItem()
+                                  .setTranslation(newValue);
+                             table.refresh();
+                         }
                      });
     }
 
     private void initTable() {
         TableColumn<TextBlock, String> start = new TableColumn<>("Start");
         start.setCellValueFactory(new PropertyValueFactory<>("start"));
-        table.getColumns().add(start);
+        start.prefWidthProperty().bind(table.widthProperty().multiply(0.125));
+        start.setResizable(false);
 
         TableColumn<TextBlock, String> end = new TableColumn<>("End");
         end.setCellValueFactory(new PropertyValueFactory<>("end"));
-        table.getColumns().add(end);
+        end.prefWidthProperty().bind(table.widthProperty().multiply(0.125));
+        end.setResizable(false);
+        end.setSortable(false);
 
         TableColumn<TextBlock, String> sub = new TableColumn<>("Subtitle");
         sub.setCellValueFactory(new PropertyValueFactory<>("subtitle"));
-        table.getColumns().add(sub);
+        sub.prefWidthProperty().bind(table.widthProperty().multiply(0.375));
+        sub.setResizable(false);
+        sub.setSortable(false);
 
-        TableColumn<TextBlock, String> translation = new TableColumn<>("Translation");
-        translation.setCellValueFactory(new PropertyValueFactory<>("translation"));
-        table.getColumns().add(translation);
+        TableColumn<TextBlock, String> tran = new TableColumn<>("Translation");
+        tran.setCellValueFactory(new PropertyValueFactory<>("translation"));
+        tran.prefWidthProperty().bind(table.widthProperty().multiply(0.375));
+        tran.setResizable(false);
+        tran.setSortable(false);
+
+        table.getColumns().addAll(start, end, sub, tran);
 
         table.setItems(data);
         table.getSelectionModel()
@@ -106,7 +113,7 @@ public class Controller implements Initializable {
              });
     }
 
-    public void onCopyDown(ActionEvent event) {
+    public void onCopyDown() {
         translateText.setText(originalText.getText());
     }
 }
